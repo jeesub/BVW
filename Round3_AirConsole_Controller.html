@@ -1,0 +1,659 @@
+
+<html>
+  <head>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
+    
+    <style type=text/css>
+
+      @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+    
+      body {
+        text-align: center;
+        font-family: 'Patrick Hand', cursive;
+        background-image: url('http://davidemorales.github.io/FourPersonBuildingGame/mobile_bg.png');
+        background-size: 100% 100%;        
+      }
+      input {
+        width: 40vw;
+        height: 5vh;
+        border-radius: 4px;
+      }
+      .logo {
+        width: 60vw;
+        margin-bottom: 4vh;
+      }
+      .button{
+        background: #FFF;
+        color: black;
+        font-size: 14px;
+        padding: 5px 10px 5px 10px;
+        border: solid #FFF 4px;
+        -webkit-border-radius: 11;
+        -moz-border-radius: 11;
+        border-radius: 6px;
+        text-align: center;
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+      }
+      .submit {
+        display: inline-block;
+        text-align: center;
+        width: 40%;
+        margin-top: 10px;
+      }
+      .section {
+
+      }
+      #waitingRoom {
+        padding-top: 60%;
+        font-weight: 900;
+      }
+      .waitingRoomText {
+        font-size: 20px;
+      }
+      .friend {
+        text-align: left;
+        padding-left: 5vw;
+      }
+      .bubble_1 {
+        width: 100vw;
+      }
+      .bubble_2 {
+        width: 100vw;
+      }
+      .players {
+        height: 10vh;
+        padding-top: 10vh;
+        font-weight: 900;
+      }
+      .player {
+        display: inline-block;
+        text-align: center;
+        width: 32%;
+      }
+      #player0 {
+        background-color: #94DAF1;
+        border: 4px solid #94DAF1;
+      }
+      #player1 {
+        background-color: #FF736A ;
+        border: 4px solid #FF736A ;
+      }
+      #player2 {
+        background-color: #DBD5B1;
+        border: 4px solid #DBD5B1;
+      }
+      .inventory {
+        height: 60vh;
+      }
+      .item {
+        display: inline-block;
+        width: 20vw;
+        height: 20vw;
+        background-size: 100% 100%;
+        background-color: transparent;
+        margin-bottom: 2vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
+        text-align: right; 
+        vertical-align: bottom;
+        font-size: 15pt;
+        font-weight: 900;
+        border: solid #FFF0 4px;
+        -webkit-border-radius: 11;
+        -moz-border-radius: 11;
+        border-radius: 6px;
+        background-repeat: no-repeat;
+        line-height: 23vw;
+      }
+      .selected {
+        border: solid red 4px;
+      }
+      .recipe {
+
+      }
+      .deactivated {
+        display: none;
+      }
+      .furniture {
+        display: inline-block;
+        width: 24%;
+      }
+      .furnitureName {
+        font-size: 20pt;
+        font-weight: 900;
+        color: white;
+      }
+      .finished {
+        font-size: 50pt;
+        font-weight: 900;
+        color: white;
+        text-align: center; 
+        vertical-align: center;
+      }
+      .material {
+        display: inline-block;
+        width: 20vw;
+        height: 20vw;
+        background-size: 100% 100%;
+        background-color: white;
+        margin-bottom: 2vw;
+        margin-left: 1vw;
+        margin-right: 1vw;
+        text-align: right; 
+        vertical-align: bottom;
+        font-size: 15pt;
+        font-weight: 900;
+        -webkit-border-radius: 11;
+        -moz-border-radius: 11;
+        border-radius: 6px;
+        background-repeat: no-repeat;
+      }
+
+      #Hammer {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Hammer.png'); 
+      }
+      #ScrewDriver {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/ScrewDriver.png'); 
+      }
+      #Saw {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Saw.png'); 
+      }
+      #PaintBrush {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/PaintBrush.png'); 
+      }
+      #Needle {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Needle.png'); 
+      }
+      #Nail {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Nail.png'); 
+      }
+      #Screw {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Screw.png'); 
+      }
+      #Nut {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Nut.png'); 
+      }
+      #Washer {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Washer.png'); 
+      }
+      #Paint {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Paint.png'); 
+      }
+      #Wood {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Wood.png'); 
+      }
+      #LightBulb {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/LightBulb.png'); 
+      }
+      #Fabric {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Fabric.png'); 
+      }
+      #String {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/String.png'); 
+      }
+      #Cotton {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Cotton.png'); 
+      }
+      #Metal {
+        background-image: url('https://jeesub.github.io/assets/inventory/BVWteam27/img/tools/Metal.png'); 
+      }
+
+      .RecipeHammer {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/hammer%20copy.png'); 
+      }
+      .RecipeScrewDriver {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/screw_driver%20copy.png'); 
+      }
+      .RecipeSaw {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/saw%20copy.png'); 
+      }
+      .RecipePaintBrush {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/paint_brush%20copy.png'); 
+      }
+      .RecipeNeedle {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/needle%20copy.png'); 
+      }
+      .RecipeNail {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/nail%20copy.png'); 
+      }
+      .RecipeScrew {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/screw%20copy.png');  
+      }
+      .RecipeNut {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/nut%20copy.png'); 
+      }
+      .RecipeWasher {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/washer%20copy.png'); 
+      }
+      .RecipePaint {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/paint%20copy.png'); 
+      }
+      .RecipeWood {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/wood%20copy.png'); 
+      }
+      .RecipeLightBulb {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/lightbulb%20copy.png'); 
+      }
+      .RecipeFabric {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/fabric%20copy.png'); 
+      }
+      .RecipeString {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/thread%20copy.png'); 
+      }
+      .RecipeCotton {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/cotton%20copy.png'); 
+      }
+      .RecipeMetal {
+        background-image: url('https://davidemorales.github.io/FourPersonBuildingGame/metal%20copy%202.png'); 
+      }
+    </style>
+    
+    <script type="text/javascript">
+
+      // Initiation
+      // Hammer, ScrewDriver, Saw, PaintBrush, Needle, Nail, Screw, Nut, Washer, Paint, Wood, LightBulb, Fabric, String, Cotton, Metal
+      var allFurniture = ["Hammer", "ScrewDriver", "Saw", "PaintBrush", "Needle", "Nail", "Screw", "Nut", "Washer", "Paint", "Wood", "LightBulb", "Fabric", "String", "Cotton", "Metal"];
+
+      var players = [];
+      var furniture = [];
+      var inventory = new Map();
+      inventory.set("Hammer", 0);
+      inventory.set("ScrewDriver", 0);
+      inventory.set("Saw", 0);
+      inventory.set("PaintBrush", 0);
+      inventory.set("Needle", 0);
+      inventory.set("Nail", 0);
+      inventory.set("Screw", 0);
+      inventory.set("Nut", 0);
+      inventory.set("Washer", 0);
+      inventory.set("Paint", 0);
+      inventory.set("Wood", 0);
+      inventory.set("LightBulb", 0);
+      inventory.set("Fabric", 0);
+      inventory.set("String", 0);
+      inventory.set("Cotton", 0);
+      inventory.set("Metal", 0);
+
+      var selectedItem;
+
+      var airconsole;
+      /**
+       * Sets up the communication to the screen.
+       */
+      function App() {
+        var me = this;
+        me.airconsole = new AirConsole({"orientation": "portrait", "synchronize_time" : "true"});
+
+        me.airconsole.onMessage = function(from, data) {
+          console.log("onMessage", from, data);
+          interpretMessage(data);
+        };
+
+        me.airconsole.onReady = function(code) {
+          console.log("onReady", code);
+        };
+        
+        me.airconsole.onDeviceStateChange = function(device_id, device_data) {
+          console.log("onDeviceStateChange", device_id, device_data);
+        };
+
+        if (!("ontouchstart" in document.createElement("div"))) {
+          var elements = document.getElementsByTagName("*");
+          for (var i = 0; i < elements.length; ++i) {
+            var element = elements[i];
+            var ontouchstart = element.getAttribute("ontouchstart");
+            if (ontouchstart) {
+              element.setAttribute("onmousedown", ontouchstart);
+            }
+            var ontouchend = element.getAttribute("ontouchend");
+            if (ontouchend) {
+              element.setAttribute("onmouseup", ontouchend);
+            }
+          }
+        }
+      }
+      
+      App.prototype.sendMessageToScreen = function(msg) {
+         this.airconsole.message(AirConsole.SCREEN, msg);
+      };
+
+      /**
+      * 
+      * == Players information ==
+      * "Player 1:Jeesub Lee";
+      * "Player 3:Test Player";
+      * 
+      * == ToolsAndMaterials ==
+      * Hammer, ScrewDriver, Saw, PaintBrush, Needle, Nail, Screw, Nut, Washer, Paint, Wood, LightBulb, Fabric, String, Cotton, Metal
+      *
+      * == Receiving Data Format ==
+      * "Recipe Table Hammerx1 Woodx3 Nailx2";
+      * "Inventory Hammerx1 Woodx3 Nailx2 ScrewDriverx1 Stringx7";
+      * 
+      * == Sending Data Format ==
+      * PlayerID Hammer
+      * Furniture Chair
+      * 
+      */
+
+      /**
+      ====== console test code ======
+      var s = "Player 1:Jeesub Lee";
+      interpretMessage(s);
+      var s= "Player 3:Test Player 3";
+      interpretMessage(s);
+      var s= "Player 5:Test Player 5";
+      interpretMessage(s);
+      var s= "Recipe Table Hammerx1 Woodx3 Nailx2 Nutx1";
+      interpretMessage(s);
+      var s= "Recipe Chair Hammerx1 Woodx3 Nailx2 Nutx1";
+      interpretMessage(s);
+      var s= "Recipe Bed Hammerx1 Woodx3 Nailx2 Nutx1";
+      interpretMessage(s);
+      var s= "Inventory Hammerx1 ScrewDriverx1 Sawx1 PaintBrushx1 Needlex1 Nailx10 Screwx9 Nutx10 Washerx11 Paintx9 Woodx9 LightBulbx9 Fabricx9 Stringx9 Cottonx9 Metalx9";
+      interpretMessage(s);
+      var s = "System Start";
+      interpretMessage(s);
+      **/
+
+      function playSelectToolsAudio() {
+        document.getElementById("selectToolAudio").play();
+      }
+
+      function playSucceed1Audio() {
+        document.getElementById("succeed1Audio").play();
+      }
+
+      function playSucceed2Audio() {
+        document.getElementById("succeed2Audio").play();
+      }
+
+      function playSucceed3Audio() {
+        document.getElementById("succeed3Audio").play();
+      }
+
+      function playSendItemAudio() {
+        document.getElementById("sendItemAudio").play();
+      }
+
+      function setName(name) {
+        if (name.length > 0) {
+          console.log(name);
+          window.app.sendMessageToScreen("PlayerName " + name);
+          document.getElementById("waiting1").classList.add("deactivated");
+          document.getElementById("waiting2").classList.remove("deactivated");
+        }
+      }
+
+      function gameLook() {
+        document.getElementById("waiting2").classList.add("deactivated");
+        document.getElementById("waiting3").classList.remove("deactivated");
+      }
+
+      function gameStart() {
+        document.getElementById("waitingRoom").classList.add("deactivated");
+        document.getElementById("playingDisplay").classList.remove("deactivated");
+      }
+
+      function gameEnd() {
+        document.getElementById("waitingRoom").classList.remove("deactivated");
+        document.getElementById("playingDisplay").classList.add("deactivated");
+      }
+
+      function interpretMessage(string) {
+        var tmp = string.split(" ");
+
+        switch (tmp[0]) {
+          case "System":
+            // Game Start
+            if (tmp[1] == "Look") {
+              gameLook();
+            }
+            if (tmp[1] == "Start") {
+              gameStart();
+            }
+            if (tmp[1] == "End") {
+              gameEnd();
+            }
+            break;
+          case "Player":
+            var playerID = tmp[1].split(":")[0];
+            var playerName = string.split(":")[1];
+            document.getElementById("player" + players.length).innerHTML = playerName;
+            players.push([playerID, playerName]);
+            break;
+          case "Recipe":
+            var furnitureName = tmp[1];
+            var material0 = tmp[2].split("x");
+            var material1 = tmp[3].split("x");
+            var material2 = tmp[4].split("x");
+            var material3 = tmp[5].split("x");
+            furniture.push([furnitureName, [material0, material1, material2, material3]]);
+            var furnitureIdx = parseInt(furniture.length) - 1
+            var elem = document.getElementById('furniture' + furnitureIdx.toString());
+            elem.innerHTML = furnitureName;
+            refreshMaterial(furnitureIdx);
+            break;
+          case "Inventory":
+            var i;
+            for (i = 1; i < tmp.length; i++) {
+              var itemData = tmp[i].split("x");
+              inventory.set(itemData[0], parseInt(inventory.get(itemData[0])) + parseInt(itemData[1]));
+            }
+
+            refreshInventory("Hammer");
+            refreshInventory("ScrewDriver");
+            refreshInventory("Saw");
+            refreshInventory("PaintBrush");
+            refreshInventory("Needle");
+            refreshInventory("Nail");
+            refreshInventory("Screw");
+            refreshInventory("Nut");
+            refreshInventory("Washer");
+            refreshInventory("Paint");
+            refreshInventory("Wood");
+            refreshInventory("LightBulb");
+            refreshInventory("Fabric");
+            refreshInventory("String");
+            refreshInventory("Cotton");
+            refreshInventory("Metal");
+
+            break;
+          default:
+            log.console("cannot find the head data!");
+        }
+      };
+
+      function refreshInventory(materialName){
+        var elem = document.getElementById(materialName);
+        elem.innerHTML = inventory.get(materialName).toString();
+      }
+
+      function selectItem(item) {
+        selectedItem = item;
+
+        deselectAllItems();
+
+        var item = document.getElementById(item);
+        item.classList.add("selected");
+        playSelectToolsAudio();
+      }
+
+      function deselectAllItems()
+      {
+        var items = document.getElementsByClassName("item");
+        for (i = 0; i < items.length; i++) {
+          items[i].classList.remove("selected");
+        }
+      }
+
+      function sendItem(target) {
+        var playerID = players[target][0];
+        var itemNum = inventory.get(selectedItem);
+        window.app.sendMessageToScreen("Sending " + playerID + " " + selectedItem + " of which I have " + itemNum);
+        if (parseInt(itemNum) > 0) {
+          console.log("item: " + selectedItem + "player ID: " + playerID);
+          inventory.set(selectedItem, parseInt(itemNum) - 1);
+          window.app.sendMessageToScreen("Send " + playerID + " " + selectedItem);
+          refreshInventory(selectedItem);
+          playSendItemAudio();
+        }
+      }
+
+      function useItem(furnitureIdx, itemIdx) {
+        var itemNum = inventory.get(selectedItem);
+        var furnitureName = furniture[furnitureIdx][0];
+        var itemName = furniture[furnitureIdx][1][itemIdx][0].toString();
+        var itemNeededNum = parseInt(furniture[furnitureIdx][1][itemIdx][1]);
+
+        window.app.sendMessageToScreen(itemNum + " " + furnitureName + " " + itemName + " " + itemNeededNum);
+
+        if (itemNum > 0 && itemName == selectedItem && itemNeededNum > 0) {
+          console.log("item: " + selectedItem + " furniture: " + furnitureName);
+          if (selectedItem != "Hammer" && selectedItem != "ScrewDriver" && selectedItem != "Saw" && selectedItem != "PaintBrush" && selectedItem != "Needle") {
+            inventory.set(selectedItem, parseInt(itemNum) - 1);
+          }
+          furniture[furnitureIdx][1][itemIdx][1] -= 1;
+          refreshInventory(selectedItem);
+          refreshMaterial(furnitureIdx);
+        }
+        checkComplete(furnitureIdx);
+      }
+
+      function refreshMaterial(furnitureIdx) {
+        var itemIdx;
+        for (itemIdx = 0; itemIdx < 4; itemIdx++) {
+          var elem = document.getElementById('material' + furnitureIdx.toString() + itemIdx.toString());
+          elem.innerHTML = furniture[furnitureIdx][1][itemIdx][1].toString();
+          elem.classList.add("Recipe" + furniture[furnitureIdx][1][itemIdx][0].toString());
+        }
+      }
+
+      function checkComplete(furnitureIdx) {
+        if (furniture[furnitureIdx][1][0][1] == 0 && furniture[furnitureIdx][1][1][1] == 0 && furniture[furnitureIdx][1][2][1] == 0 && furniture[furnitureIdx][1][3][1] == 0) {
+          var furnitureName = furniture[furnitureIdx][0];
+          window.app.sendMessageToScreen('Spawn ' + furnitureName);
+          
+          if (furnitureIdx != 2) {
+            var recipeId = document.getElementById('recipe' + furnitureIdx);
+            var nextfurnitureIdx = parseInt(furnitureIdx) + 1;
+            var nextRecipeId = document.getElementById('recipe' + nextfurnitureIdx);
+            recipeId.classList.add("deactivated");
+            nextRecipeId.classList.remove("deactivated");
+
+
+          }
+          if (furnitureIdx == 0) {
+            playSucceed1Audio();
+          }
+          if (furnitureIdx == 1) {
+            playSucceed2Audio();
+          }
+          if (furnitureIdx == 2) {
+            // Game End
+            playSucceed3Audio();
+
+            var recipeId = document.getElementById('recipe' + furnitureIdx);
+            recipeId.classList.add("deactivated");
+            var finished = document.getElementById('finished');
+            finished.classList.remove("deactivated");
+          }
+        }
+      }
+    </script>
+   
+  </head>
+  <body onload="window.app = new App()">
+    <audio id="selectToolAudio">
+      <source src="https://jeesub.github.io/assets/inventory/BVWteam27/sound/Selected.wav" type="audio/wav">
+    </audio>
+    <audio id="succeed1Audio">
+      <source src="https://jeesub.github.io/assets/inventory/BVWteam27/sound/Succeed_1.wav" type="audio/wav">
+    </audio>
+    <audio id="succeed2Audio">
+      <source src="https://jeesub.github.io/assets/inventory/BVWteam27/sound/Succeed_2.wav" type="audio/wav">
+    </audio>
+    <audio id="succeed3Audio">
+      <source src="https://jeesub.github.io/assets/inventory/BVWteam27/sound/Succeed_3.wav" type="audio/wav">
+    </audio>
+    <audio id="sendItemAudio">
+      <source src="https://davidemorales.github.io/FourPersonBuildingGame/Send%20to%20other.wav" type="audio/wav">
+    </audio>
+    <!-- WAITING ROOM -->
+    <div id="waitingRoom">
+      <div id="waiting1">
+        <img class="logo" src="https://jeesub.github.io/assets/inventory/BVWteam27/img/other/logotype_lightbg.png"><br>
+        <label for="name">What is Your Name?</label><br>
+        <input type="text" id="username" name="username" required minlength="1" maxlength="24" size="10"><br>
+        <div class="button submit" ontouchstart="window.setName(document.getElementById('username').value)">Submit</div>
+      </div>
+      <div id="waiting2" class="deactivated">
+        <div class="waitingRoomText">
+          <div id="friend" class="friend">Alex</div>
+          <img class="bubble_1" src= "https://jeesub.github.io/assets/inventory/BVWteam27/img/other/bubble_1.png"><br>
+          <img class="bubble_2" src= "https://jeesub.github.io/assets/inventory/BVWteam27/img/other/bubble_2.png">
+        </div>
+      </div>
+      <div id="waiting3" class="deactivated">
+        <div class="waitingRoomText">
+          Look at the main screen
+        </div>
+      </div>
+    </div>
+
+    <!-- PLAYING DISPLAY -->
+    <div id="playingDisplay" class="deactivated">
+      <div class="section players">
+        <div id="player0" class="player button" ontouchstart="window.sendItem(0)">Player1</div>
+        <div id="player1" class="player button" ontouchstart="window.sendItem(1)">Player2</div>
+        <div id="player2" class="player button" ontouchstart="window.sendItem(2)">Player3</div>
+      </div>
+      <div class="section inventory">
+        <!-- Hammer, ScrewDriver, Saw, PaintBrush, Needle, Nail, Screw, Nut, Washer, Paint, Wood, LightBulb, Fabric, String, Cotton, Metal --> 
+        <div id="Hammer" class="item button Hammer" ontouchstart="window.selectItem('Hammer')">Hammer</div>
+        <div id="ScrewDriver" class="item button ScrewDriver" ontouchstart="window.selectItem('ScrewDriver')">ScrewDriver</div>
+        <div id="Saw" class="item button Saw" ontouchstart="window.selectItem('Saw')">Saw</div>
+        <div id="PaintBrush" class="item button PaintBrush" ontouchstart="window.selectItem('PaintBrush')">PaintBrush</div>
+        <div id="Needle" class="item button Needle" ontouchstart="window.selectItem('Needle')">Needle</div>
+        <div id="Nail" class="item button Nail" ontouchstart="window.selectItem('Nail')">Nail</div>
+        <div id="Screw" class="item button Screw" ontouchstart="window.selectItem('Screw')">Screw</div>
+        <div id="Nut" class="item button Nut" ontouchstart="window.selectItem('Nut')">Nut</div>
+        <div id="Washer" class="item button Washer" ontouchstart="window.selectItem('Washer')">Washer</div>
+        <div id="Paint" class="item button Paint" ontouchstart="window.selectItem('Paint')">Paint</div>
+        <div id="Wood" class="item button Wood" ontouchstart="window.selectItem('Wood')">Wood</div>
+        <div id="LightBulb" class="item button LightBulb" ontouchstart="window.selectItem('LightBulb')">LightBulb</div>
+        <div id="Fabric" class="item button Fabric" ontouchstart="window.selectItem('Fabric')">Fabric</div>
+        <div id="String" class="item button String" ontouchstart="window.selectItem('String')">String</div>
+        <div id="Cotton" class="item button Cotton" ontouchstart="window.selectItem('Cotton')">Cotton</div>
+        <div id="Metal" class="item button Metal" ontouchstart="window.selectItem('Metal')">Metal</div>
+      </div>
+      <div class="section recipe">
+        <div id="recipe0">
+          <div id="furniture0" class="furnitureName furniture0">Furniture0</div>
+          <div id="material00" class="material button" ontouchstart="window.useItem(0, 0)">material 1</div>
+          <div id="material01" class="material button" ontouchstart="window.useItem(0, 1)">material 2</div>
+          <div id="material02" class="material button" ontouchstart="window.useItem(0, 2)">material 3</div>
+          <div id="material03" class="material button" ontouchstart="window.useItem(0, 3)">material 4</div>
+        </div>
+        <div id="recipe1" class="deactivated">
+          <div id="furniture1" class="furnitureName furniture1">Furniture1</div>
+          <div id="material10" class="material button" ontouchstart="window.useItem(1, 0)">material 1</div>
+          <div id="material11" class="material button" ontouchstart="window.useItem(1, 1)">material 2</div>
+          <div id="material12" class="material button" ontouchstart="window.useItem(1, 2)">material 3</div>
+          <div id="material13" class="material button" ontouchstart="window.useItem(1, 3)">material 4</div>
+        </div>
+        <div id="recipe2" class="deactivated">
+          <div id="furniture2" class="furnitureName furniture2">Furniture2</div>
+          <div id="material20" class="material button" ontouchstart="window.useItem(2, 0)">material 1</div>
+          <div id="material21" class="material button" ontouchstart="window.useItem(2, 1)">material 2</div>
+          <div id="material22" class="material button" ontouchstart="window.useItem(2, 2)">material 3</div>
+          <div id="material23" class="material button" ontouchstart="window.useItem(2, 3)">material 4</div>
+        </div>
+        <div id="finished" class="finished deactivated">Finished!</div>
+      </div>
+    </div>
+  </body>
+</html>
