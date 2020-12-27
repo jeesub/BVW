@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
+		<style type=text/css>
+			@import url('https://fonts.googleapis.com/css2?family=Mali&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Averia+Libre&display=swap');
+			@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
+			body {
+				-ms-user-select: none;
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				user-select: none;
+				margin: 0;
+				font-family: 'Mali', cursive;
+				background-color: #FFF;
+			}
+			input {
+				margin-top: 10px;
+				width: 60vw;
+				height: 5vh;
+				padding: 4px 10px 4px 10px;
+				border-radius: 4px;
+			}
+			.button {
+				-webkit-border-radius: 11;
+				-moz-border-radius: 11;
+				border-radius: 11px;
+				box-shadow: 0 5px #999;
+				font-family: 'Mali', cursive;
+				background-color: #039BE5;
+				color: #FFF;
+			}
+			.button:active {
+				box-shadow: 0 1px #666;
+				transform: translateY(4px);
+			}
+			.submit{
+				display: inline-block;
+				margin-top: 10px;
+				font-size: 14px;
+				padding: 10px 10px 10px 10px;
+				text-align: center;
+				width: 40vw;
+				box-sizing: border-box;
+			}
+			.controller-screen {
+				position: absolute;
+				background-image: url(https://jeesub.github.io/assets/inventory/BVWteam44/img/bg.png);
+				background-repeat: no-repeat;
+				padding: 0;
+				margin: 0;
+				width: 100vw;
+				height: 100vh;
+			}
+			.controller-header {
+				height: 6vh;
+				padding: 2vh 2vh 2vh 2vh;
+				font-size: 20pt;
+				font-weight: 900;
+				line-height: 6vh;
+				color: #FFF;
+				background-color: #000;
+			}
+			.deactivated {
+				display: none;
+			}
+			#intro {
+				z-index: 10;
+			}
+			#intro2 {
+				z-index: 10;
+			}
+			#player-head {
+				
+			}
+			#player-hands {
+				z-index: -5;
+			}
+			#player-legs {
+				
+			}
+			.talk-bubble {
+				position: absolute;
+				z-index: 10;
+				width: 80vw;
+				height: 70vh;
+				margin-top: 5vh;
+				margin-left: 5vw;
+				padding: 5vh 5vw 5vh 5vw;
+				border-radius: 30px;
+				color: #000;
+				background-color: rgb(200, 200, 200, 0.97);
+			}
+			.talk-bubble:before {
+				content: '';
+				z-index: -1;
+				position: absolute;
+				display: inline-block;
+				width: 15vw;
+				margin-top: -7vh;
+				height: 15vw;
+				margin-left: 32vw;
+				-webkit-transform: rotate(45deg);
+				transform: rotate(45deg);
+				background-color: rgb(200 200 200 / 97%);
+			}
+			#talk-esc {
+				position: absolute;
+				font-weight: 900;
+				font-size: 20pt;
+				z-index: 11;
+				bottom: 5vw;
+				right: 5vw;
+				color: #000;
+				text-shadow: none;
+			}
+			.hands-and-legs-talk-bubble {
+				color: transparent;
+				text-shadow: 0 0 8px #000;
+			}
+			.talk-title {
+				font-family: 'Amatic SC', cursive;
+				font-size: 34pt;
+				text-align: left;
+				margin-bottom: 4vh;
+			}
+			.talk-content {
+				font-family: 'Averia Libre', cursive;
+				font-size: 16pt;
+				line-height: 22pt;
+			}
+			/** ADMIN **/
+			#player-admin {
+				z-index: 20;
+			}
+			.admin-content {
+				padding: 5vh 5vw;
+			}
+			.admin-title {
+				font-size: 4vh;
+				line-height: 5vh;
+				font-weight: 900;
+			}
+			select {
+				width: 90vw;
+				height: 7vh;
+				margin-bottom: 5vh;
+				font-size: 3vh;
+				line-height: 7vh;
+				font-family: 'Mali', cursive;
+			}
+			.assign {
+				width: 90vw;
+			}
+			/** INTRO **/
+			.intro-description {
+				margin-top: 20vh;
+				padding: 0 5vw 0 5vw;
+				text-align: center;
+				font-size: 16pt;
+				line-height: 20pt;
+			}
+			/** HEAD **/
+			#sign {
+				position: absolute;
+				z-index: 9;
+				width: 65vw;
+				height: 80vh;
+				padding: 12vh 15vw 0vh 20vw;
+				color: #000;
+				font-size: 16pt;
+				background-color: rgb(63, 63, 63, 0.95);
+				background-image: url(https://jeesub.github.io/assets/inventory/BVWteam44/img/signBG.png);
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+			}
+			.sign-close {
+				position: absolute;
+				top: 70vh;
+				z-index: 10;
+				margin-left: 50vw;
+				color: #000;
+				font-size: 16pt;
+			}
+			.spell-book {
+				height: 74vh;
+				padding-top: 1vh;
+				text-align: center;
+			}
+			.spell-icons {
+				text-align: left;
+			}
+			.spell-icon {
+				width: 32vw;
+				height: 32vw;
+				max-width: 180px;
+				max-height: 180px;
+			}
+			.spell-recipe {
+				text-align: center;
+				margin-bottom: 1vh;
+				padding: 0 5vw 0 5vw;
+			}
+			.spell-back-button {
+				text-align: left;
+				font-size: 20pt;
+				font-weight: 900;
+				width: 33vw;
+				margin-top: 3vh;
+			}
+			.spell-title {
+				font-size: 30pt;
+				font-weight: 600;
+				margin-top: 10vh;
+				margin-bottom: 3vh;
+			}
+			.spell-img {
+				width: 50vw;
+				height: 50vw;
+				margin-bottom: 1vh;
+			}
+			.map-img {
+				height: 60vh;
+				max-height: 100vw;
+			}
+			.sign-map {
+				width: 65vw;
+			}
+			.talk {
+				height: 10vh;
+				width: 80vw;
+				margin-top: 3vh;
+				margin-left: 10vw;
+				font-size: 10vw;
+			}
+			.back {
+				height: 10vh;
+				width: 80vw;
+				margin-top: 3vh;
+				font-size: 10vw;	
+			}
+			#tooFar {
+				position: absolute;
+				height: 8vh;
+				width: 76vw;
+				top: 75vh;
+				margin-left: 10vw;
+				padding: 1vh 2vw 1vh 2vw;
+				background-color: #f76803;
+				text-align: center;
+				color: #FFF;
+				font-size: 14pt;
+				border-radius: 15px;
+			}
+			/** HANDS **/
+			.container {
+				position: relative;
+				margin-top: 20vh;
+				display: inline-block;
+				width: 100vw;
+				height: 100vw;
+				max-height: 360px;
+				overflow: hidden;
+			}
+			#canvas_container {
+				vertical-align: top;
+				text-align: center;
+				width: 100vw;
+				height: 90vw;
+				display: inline-block;
+			}
+			/** LEGS **/
+			.dpad-area {
+				margin-top: 20vh;
+			}
+			.dpad {
+				width: 30vw;
+				height:15vh;
+				margin: 0 1vw 0 1vw;
+				padding: 0;
+				font-size: 8vw;
+			}
+			.dpad-up-area {
+				position: relative;
+				width: 100vw;
+				height: 33vw;
+			}
+			.dpad-else-area {
+				position: relative;
+				width: 100vw;
+				height: 33vw;
+			}
+			.arrow {
+
+			}
+			.arrow-up {
+				margin-left: 33vw;
+				width: 33vw;
+				height: 33vw;
+			}
+			.arrow-up-active {
+				margin-top: 1vw;
+				margin-left: 34vw;
+				width: 31vw;
+				height: 31vw;
+			}
+			.arrow-left {
+				position: absolute;
+				left: 0vw;
+				width: 33vw;
+				height: 33vw;
+			}
+			.arrow-left-active {
+				position: absolute;
+				top: 1vw;
+				left: 1vw;
+				width: 31vw;
+				height: 31vw;
+			}
+			.arrow-down {
+				position: absolute;
+				left: 33vw;
+				width: 33vw;
+				height: 33vw;
+			}
+			.arrow-down-active {
+				position: absolute;
+				top: 1vw;
+				left: 34vw;
+				width: 31vw;
+				height: 31vw;
+			}
+			.arrow-right {
+				position: absolute;
+				left: 66vw;
+				width: 33vw;
+				height: 33vw;
+			}
+			.arrow-right-active {
+				position: absolute;
+				top: 1vw;
+				left: 67vw;
+				width: 31vw;
+				height: 31vw;
+			}
+		</style>
+
+		<script type="text/javascript">
+
+			var isCasting = false;
+			var player;
+			var password = "Team44";
+
+			function App() {
+
+				/* JavaScript / Functionality. Add functions and evens here */ 
+				this.airconsole = new AirConsole({"orientation": "portrait", "synchronize_time" : "true"});
+
+				this.airconsole.onMessage = function(from, data) {
+					// got a message
+					console.log("onMessage", from, data);
+					interpretMessage(data);
+				};
+
+				if (!("ontouchstart" in document.createElement("div"))) {
+					var elements = document.getElementsByTagName("*");
+					for (var i = 0; i < elements.length; ++i) {
+						var element = elements[i];
+						var ontouchstart = element.getAttribute("ontouchstart");
+						if (ontouchstart) {
+							element.setAttribute("onmousedown", ontouchstart);
+						}
+						var ontouchend = element.getAttribute("ontouchend");
+						if (ontouchend) {
+							element.setAttribute("onmouseup", ontouchend);
+						}
+					}
+				}
+			}
+
+			App.prototype.sendMessageToScreen = function(msg) {
+				console.log("sendMessageToScreen: " + msg);
+				this.airconsole.message(AirConsole.SCREEN, { "action": msg });
+			}
+
+			function interpretMessage(string) {
+				var tmp = string.split(" ");
+
+				switch (tmp[0]) {
+					case "System":
+						if (tmp[1] == "Look") {
+							gameLook();
+						}
+						if (tmp[1] == "Start") {
+							gameStart();
+						}
+						if (tmp[1] == "End") {
+							gameEnd();
+						}
+						break;
+					case "Player":
+						if (tmp[1] == "Admin") {
+							setAdmin();
+						}
+						if (tmp[1] == "Head") {
+							setHead();
+						}
+						if (tmp[1] == "Hands") {
+							setHands();
+						}
+						if (tmp[1] == "Legs") {
+							setLegs();
+						}
+						break;
+					case "Spell":
+						getSpell(tmp[1]);
+						break;
+					case "Map":
+						getMap(tmp[1]);
+						break;
+					case "Sign":
+						if (tmp[1] == 0) {
+							removeSign();
+						} else {
+							showSign(tmp[1]);
+						}
+						break;
+					case "Talk":
+						if (tmp[1] == 0) {
+							removeTalkBubble(false);
+						} else if (tmp[1] == -1) {
+							showTooFarMessage();
+						} else {
+							showTalkBubble(tmp[1]);
+						}
+						break;
+					case "Admin":
+						adminGetUsers(tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], tmp[6]);
+						break;
+					default:
+						console.log("cannot find the head data!");
+						break;
+				}
+			};
+
+			function sendName(name) {
+				if (!name == '') {
+					var name = name;
+					var element =  document.getElementById('realName');
+					element.innerHTML = name;
+					window.app.sendMessageToScreen('Connected ' + name);
+					if (name == password) {
+						setAdmin();
+					} else {
+						document.getElementById("intro").classList.add("deactivated");
+						document.getElementById("intro2").classList.remove("deactivated");
+					}
+					playSubmitButtonAudio();
+				}
+			}
+
+			function setAdmin() {
+				player = "Admin";
+				document.getElementById("player-admin").classList.remove("deactivated");
+			}
+
+			function adminGetUsers(id0, user0, id1, user1, id2, user2) {
+				document.getElementById("admin1").classList.add("deactivated");
+				document.getElementById("admin2").classList.remove("deactivated");
+				
+				var assign0 = document.getElementById("admin-assign-0");
+				var assign1 = document.getElementById("admin-assign-1");
+				var assign2 = document.getElementById("admin-assign-2");
+
+				assign0.options[0].innerHTML = user0;
+				assign0.options[1].innerHTML = user1;
+				assign0.options[2].innerHTML = user2;
+				assign1.options[0].innerHTML = user0;
+				assign1.options[1].innerHTML = user1;
+				assign1.options[2].innerHTML = user2;
+				assign2.options[0].innerHTML = user0;
+				assign2.options[1].innerHTML = user1;
+				assign2.options[2].innerHTML = user2;
+
+				assign0.options[0].value = id0;
+				assign0.options[1].value = id1;
+				assign0.options[2].value = id2;
+				assign1.options[0].value = id0;
+				assign1.options[1].value = id1;
+				assign1.options[2].value = id2;
+				assign2.options[0].value = id0;
+				assign2.options[1].value = id1;
+				assign2.options[2].value = id2;
+			}
+
+			function assignRoles() {
+				var playerRole0 = document.getElementById("admin-assign-0").value;
+				var playerRole1 = document.getElementById("admin-assign-1").value;
+				var playerRole2 = document.getElementById("admin-assign-2").value;
+				if (playerRole0 != playerRole1 && playerRole1 != playerRole2 && playerRole2 != playerRole0) {
+					var result = "Admin " + playerRole0 + " " + playerRole1 + " " + playerRole2;
+					
+					window.app.sendMessageToScreen(result);
+					playSubmitButtonAudio();
+					document.getElementById("admin2").classList.add("deactivated");
+					document.getElementById("admin3").classList.remove("deactivated");
+				} else {
+					playBackButtonAudio();
+				}
+			}
+
+			function gameLook() {
+				document.getElementById("intro2").classList.add("deactivated");
+				document.getElementById("intro3").classList.remove("deactivated");
+				playSubmitButtonAudio();
+			}
+
+			function gameStart() {
+				document.getElementById("intro3").classList.add("deactivated");
+				document.getElementById("intro4").classList.remove("deactivated");
+				playSubmitButtonAudio();
+			}
+
+			function playerReady() {
+				window.app.sendMessageToScreen('Ready');
+				document.getElementById("intro4").classList.add("deactivated");
+				document.getElementById("intro5").classList.remove("deactivated");
+				playSubmitButtonAudio();
+			}
+
+			function setHead() {
+				document.getElementById("intro5").classList.add("deactivated");
+				document.getElementById("player-hands").classList.add("deactivated");
+				document.getElementById("player-head").classList.remove("deactivated");
+				playSubmitButtonAudio();
+				player = "Head";
+			}
+
+			function setHands() {
+				document.getElementById("intro5").classList.add("deactivated");
+				playSubmitButtonAudio();
+				player = "Hands";
+			}
+
+			function setLegs() {
+				document.getElementById("intro5").classList.add("deactivated");
+				document.getElementById("player-hands").classList.add("deactivated");
+				document.getElementById("player-legs").classList.remove("deactivated");
+				playSubmitButtonAudio();
+				player = "Legs";
+			}
+
+			function getSpell(spellName) {
+				document.getElementById('icon-' + spellName).classList.remove("deactivated");
+				document.getElementById('spell-book-is-empty').classList.add("deactivated");
+				playObtainSpellAudio();
+			}
+
+			function getMap(mapNum) {
+				document.getElementById('icon-map-' + mapNum).classList.remove("deactivated");
+				playObtainSpellAudio();
+			}
+
+			function openSpell(spellName) {
+				document.getElementById('spell-icons').classList.add("deactivated");
+				document.getElementById('spell-' + spellName).classList.remove("deactivated");
+				playIconSelectAudio();
+			}
+
+			function closeSpell(spellName) {
+				document.getElementById('spell-' + spellName).classList.add("deactivated");
+				document.getElementById('spell-icons').classList.remove("deactivated");
+				playBackButtonAudio();
+			}
+
+			function talk() {
+				window.app.sendMessageToScreen('Talk');
+			}
+
+			function showSign(signNum) {
+				signNum = parseInt(signNum);
+				var content;
+				switch (signNum) {
+					case 1:
+						content = "\<img class=\'sign-map\' src=\'https:\/\/jeesub.github.io\/assets\/inventory\/BVWteam44\/img\/map-1.png\''\>\<br\>Two doors lead to death, the other leads to success.";
+						break;
+					case 2:
+						content = "\<img class=\'sign-map\' src=\'https:\/\/jeesub.github.io\/assets\/inventory\/BVWteam44\/img\/map-2.png\''\>\<br\>The true path sometimes lies unseen to the eye.";
+						break;
+					case 3:
+						content = "\<img class=\'sign-map\' src=\'https:\/\/jeesub.github.io\/assets\/inventory\/BVWteam44\/img\/map-3.png\''\>\<br\>Pour water on the wheel to open the gates.";
+						break;
+					default:
+						content = "Go Team 44! \<br\> Cannot find the content";
+						break;
+				}
+				document.getElementById("sign-content").innerHTML = content;
+				document.getElementById("sign").classList.remove("deactivated");
+				playReadSignAudio();
+			}
+
+			function removeSign() {
+				document.getElementById("sign").classList.add("deactivated");
+				playBackButtonAudio();
+			}
+
+			function showTalkBubble(talkNum) {
+				talkNum = parseInt(talkNum);
+				var title;
+				var content;
+				switch (talkNum) {
+					case 1:
+						title = "Instructor Nerak";
+						content = "Welcome to the Trial of Darkness, where you must illuminate your own path forward. BEWARE. One moment of carelessness may cause you to stub a toe! Here are a couple of spells to help you out!";
+						break;
+					case 2:
+						title = "Instructor Fets";
+						content = "Welcome to the Trial of Truth. Here are your spells, good luck! Hope you don\'t die! Don\'t forget to pick up a map at the signpost ahead, it\'ll be quite useful.";
+						break;
+					case 3:
+						title = "Instructor Einna";
+						content = "Welcome to the final trial, everyone\'s favorite, the water level! You\'ve come this far. I\'m sure you can figure it out, but here\'s one hint: help the sprout out--and it might return the favor.";
+						break;
+					case 4:
+						title = "Instructor Essej";
+						content = "Are you here for the wizard license exam? I\'m going to need to see a spell before you proceed. ";
+						break;
+					case 5:
+						title = "Instructor Essej";
+						content = "You\'re a strangely proportioned fella, you know... Are you really a human?";
+						break;
+					case 6:
+						title = "Instructor Essej";
+						content = "What the, the whole world is wobbling. I need to take a break, go inside and take the exam. I don\'t really care, I just want a donut...";
+						break;
+					case 7:
+						title = "Evad The Wise";
+						content = "Hello there! Welcome... wait... you look a bit weird. Your head is really small, and your hands are kinda in a weird place... Are you really a human? \<br\>\(Hint: Try using the very first spell you casted\)";
+						break;
+					case 8:
+						title = "Evad The Wise";
+						content = "Oh yeah, I had a bit too much last night, I\'m gonna go take a break. Here\'s your license, congrats, I hope you\'re proud that you\'ve become a viable wizard, hopefully you survive at least a week or so out there.";
+						break;
+					default:
+						title = "Talk Error 404";
+						content = "Cannot find the talk content";
+						break;
+				}
+				document.getElementById("head-talk-title").innerHTML = title;
+				document.getElementById("hands-talk-title").innerHTML = title;
+				document.getElementById("legs-talk-title").innerHTML = title;
+				document.getElementById("head-talk-content").innerHTML = content;
+				document.getElementById("hands-talk-content").innerHTML = content;
+				document.getElementById("legs-talk-content").innerHTML = content;
+				document.getElementById("head-talk-bubble").classList.remove("deactivated");
+				document.getElementById("hands-talk-bubble").classList.remove("deactivated");
+				document.getElementById("legs-talk-bubble").classList.remove("deactivated");
+				playTalkButtonAudio();
+			}
+
+			function removeTalkBubble(headClicked) {
+				document.getElementById("head-talk-bubble").classList.add("deactivated");
+				document.getElementById("hands-talk-bubble").classList.add("deactivated");
+				document.getElementById("legs-talk-bubble").classList.add("deactivated");
+				playBackButtonAudio();
+				if (headClicked) {
+					window.app.sendMessageToScreen('Close');
+				}
+			}
+
+			function showTooFarMessage() {
+				if (player == "Head") {
+					playBackButtonAudio();
+				}
+				document.getElementById("tooFar").classList.remove("deactivated");
+				setTimeout(removeTooFarMessage, 2000);
+			}
+
+			function removeTooFarMessage() {
+				document.getElementById("tooFar").classList.add("deactivated");
+			}
+
+			function startCasting() {
+				window.app.sendMessageToScreen('Spell Start');
+				isCasting = true;
+			}
+
+			function endCasting() {
+				isCasting = false;
+			}
+
+			function moveKeyDown(downKey) {
+				window.app.sendMessageToScreen(downKey);
+				document.getElementById('arrow-' + downKey).classList.add('arrow-' + downKey + '-active');
+				document.getElementById('arrow-' + downKey).classList.remove('arrow-' + downKey);
+			}
+
+			function moveKeyUp(upKey) {
+				window.app.sendMessageToScreen('moveKeyUp');
+				document.getElementById('arrow-' + upKey).classList.remove('arrow-' + upKey + '-active');
+				document.getElementById('arrow-' + upKey).classList.add('arrow-' + upKey);
+			}
+
+			function playGenericButtonAudio() {
+				document.getElementById("genericButtonAudio").play();
+			}
+
+			function playBackButtonAudio() {
+				document.getElementById("backButtonAudio").play();
+			}
+
+			function playIconSelectAudio() {
+				document.getElementById("iconSelectAudio").play();
+			}
+
+			function playObtainSpellAudio() {
+				document.getElementById("obtainSpellAudio").play();
+			}
+
+			function playSubmitButtonAudio() {
+				document.getElementById("submitButtonAudio").play();
+			}
+
+			function playTalkButtonAudio() {
+				document.getElementById("talkButtonAudio").play();
+			}
+
+			function playReadSignAudio() {
+				document.getElementById("readSignAudio").play();
+			}
+		</script>
+		
+	</head>
+	<body onload="window.app = new App()">
+		<audio id="genericButtonAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/GenericButton.wav" type="audio/wav">
+		</audio>
+		<audio id="backButtonAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/BackButton.wav" type="audio/wav">
+		</audio>
+		<audio id="iconSelectAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/IconSelect.wav" type="audio/wav">
+		</audio>
+		<audio id="obtainSpellAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/ObtainSpell.wav" type="audio/wav">
+		</audio>
+		<audio id="submitButtonAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/SubmitButton.wav" type="audio/wav">
+		</audio>
+		<audio id="talkButtonAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/TalkButton.wav" type="audio/wav">
+		</audio>
+		<audio id="readSignAudio">
+			<source src="https://jeesub.github.io/assets/inventory/BVWteam44/sound/ReadSignPost.wav" type="audio/wav">
+		</audio>
+		<!-- INTRO -->
+		<div id="intro" class="controller-screen">
+			<div class="controller-header">Intro</div>
+			<div class="intro-description">
+				<div>Howdy Stranger,</div>
+				<label for="name">What is Your Name?</label><br>
+        <input type="text" id="username" name="username" required minlength="1" maxlength="24" size="10" placeholder="Your name"><br>
+        <button class="button submit" ontouchstart="window.sendName(getElementById('username').value)">Submit</div>
+			</div>
+		</div>
+
+		<!-- INTRO 2 -->
+		<div id="intro2" class="controller-screen deactivated">
+			<div class="controller-header">Waiting</div>
+			<div class="intro-description">
+				Ah! Good to see you, <span id="realName">Stranger</span>!<br>
+				Welcome to the 'Gnomes in a robe'.<br>
+				Wait for your siblings.<br>
+			</div>
+		</div>
+
+		<!-- INTRO 3 -->
+		<div id="intro3" class="controller-screen deactivated">
+			<div class="controller-header">Instruction</div>
+			<div class="intro-description">
+				We have something for you.<br>
+				Look at the main screen :)
+			</div>
+		</div>
+
+		<!-- INTRO 4 -->
+		<div id="intro4" class="controller-screen deactivated">
+			<div class="controller-header">Waiting</div>
+			<div class="intro-description">
+				The instruction is on the main screen.<br>
+				When you are ready, press the button below.<br>
+				<button class="button submit" ontouchstart="window.playerReady()">Ready</div>
+			</div>
+		</div>
+
+		<!-- INTRO 5 -->
+		<div id="intro5" class="controller-screen deactivated">
+			<div class="controller-header">Waiting</div>
+			<div class="intro-description">
+				Waiting ...
+			</div>
+		</div>
+
+		<!-- HEAD -->
+		<div id="player-head" class="controller-screen deactivated">
+			<div class="controller-header">Top</div>
+			<div id="head-talk-bubble" class="talk-bubble deactivated">
+				<div id="talk-esc" ontouchstart="window.removeTalkBubble(true)">Close</div>
+				<div id="head-talk-title" class="talk-title">
+					Talk Bubble Title
+				</div>
+				<div id="head-talk-content" class="talk-content">
+					Talk Bubble Content
+				</div>
+			</div>
+			<div id="sign" class="deactivated">
+				<div id="sign-content">
+					Team 44
+				</div>
+				<div class="sign-close" ontouchstart="window.removeSign()">Close</div>
+			</div>
+			<div class="spell-book">
+				<!-- empty spell book -->
+				<div id="spell-book-is-empty">Your spell book is empty</div>
+				<!-- spell icons (Home screen) -->
+				<div id="spell-icons" class="spell-icons">
+					<img id="icon-map-1" class="spell-icon deactivated" ontouchend="window.openSpell('Map1')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-map-1.png">
+					<img id="icon-map-2" class="spell-icon deactivated" ontouchend="window.openSpell('Map2')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-map-2.png">
+					<img id="icon-map-3" class="spell-icon deactivated" ontouchend="window.openSpell('Map3')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-map-3.png">
+					<img id="icon-Drunken" class="spell-icon deactivated" ontouchend="window.openSpell('Drunken')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-drunken.png">
+					<img id="icon-Light" class="spell-icon deactivated" ontouchend="window.openSpell('Light')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-light.png">
+					<img id="icon-Open" class="spell-icon deactivated" ontouchend="window.openSpell('Open')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-open.png">
+					<img id="icon-ChangeBGM" class="spell-icon deactivated" ontouchend="window.openSpell('ChangeBGM')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-changeBGM.png">
+					<img id="icon-Fly" class="spell-icon deactivated" ontouchend="window.openSpell('Fly')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-fly.png">
+					<img id="icon-Fire" class="spell-icon deactivated" ontouchend="window.openSpell('Fire')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-fire.png">
+					<img id="icon-Summon" class="spell-icon deactivated" ontouchend="window.openSpell('Summon')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-summon.png">
+					<img id="icon-Water" class="spell-icon deactivated" ontouchend="window.openSpell('Water')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-water.png">
+					<img id="icon-Wind" class="spell-icon deactivated" ontouchend="window.openSpell('Wind')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-wind.png">
+				</div>
+				<!-- spell-Drunken -->
+				<div id="spell-Drunken" class="spell-recipe spell-Drunken deactivated">
+					<div class="spell-title">Jack Daniel's</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-drunken.png">
+					<button class="button back" ontouchend="window.closeSpell('Drunken')">Back</button>
+				</div>
+				<!-- spell-Summon -->
+				<div id="spell-Summon" class="spell-recipe spell-Summon deactivated">
+					<div class="spell-title">Summon useless thing</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-summon.png">
+					<button class="button back" ontouchend="window.closeSpell('Summon')">Back</button>
+				</div>
+				<!-- spell-ChangeBGM -->
+				<div id="spell-ChangeBGM" class="spell-recipe spell-ChangeBGM deactivated">
+					<div class="spell-title">Change BGM</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-changeBGM.png">
+					<button class="button back" ontouchend="window.closeSpell('ChangeBGM')">Back</button>
+				</div>
+				<!-- spell-Water -->
+				<div id="spell-Water" class="spell-recipe spell-Water deactivated">
+					<div class="spell-title">Water</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-water.png">
+					<button class="button back" ontouchend="window.closeSpell('Water')">Back</button>
+				</div>
+				<!-- spell-Wind -->
+				<div id="spell-Wind" class="spell-recipe spell-Wind deactivated">
+					<div class="spell-title">Wind</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-wind.png">
+					<button class="button back" ontouchend="window.closeSpell('Wind')">Back</button>
+				</div>
+				<!-- spell-Fire -->
+				<div id="spell-Fire" class="spell-recipe spell-Fire deactivated">
+					<div class="spell-title">Fire</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-fire.png">
+					<button class="button back" ontouchend="window.closeSpell('Fire')">Back</button>
+				</div>
+				<!-- spell-Fly -->
+				<div id="spell-Fly" class="spell-recipe spell-Fly deactivated">
+					<div class="spell-title">Fly</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-fly.png">
+					<button class="button back" ontouchend="window.closeSpell('Fly')">Back</button>
+				</div>
+				<!-- spell-Light -->
+				<div id="spell-Light" class="spell-recipe spell-Light deactivated">
+					<div class="spell-title">Illuminate</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-light.png">
+					<button class="button back" ontouchend="window.closeSpell('Light')">Back</button>
+				</div>
+				<!-- spell-Open -->
+				<div id="spell-Open" class="spell-recipe spell-Open deactivated">
+					<div class="spell-title">Open Sesame</div>
+					<img class="spell-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/spell-open.png">
+					<button class="button back" ontouchend="window.closeSpell('Open')">Back</button>
+				</div>
+				<!-- map level 1 -->
+				<div id="spell-Map1" class="map deactivated">
+					<img class="map-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/map-1.png">
+					<button class="button back" ontouchend="window.closeSpell('Map1')">Back</button>
+				</div>
+				<!-- map level 2 -->
+				<div id="spell-Map2" class="map deactivated">
+					<img class="map-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/map-2.png">
+					<button class="button back" ontouchend="window.closeSpell('Map2')">Back</button>
+				</div>
+				<!-- map level 3 -->
+				<div id="spell-Map3" class="map deactivated">
+					<img class="map-img" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/map-3.png">
+					<button class="button back" ontouchend="window.closeSpell('Map3')">Back</button>
+				</div>
+			</div>
+			<!-- TALK BUTTON -->
+			<!--<button class="button talk" ontouchstart="window.talk()">Talk</button>-->
+			<!-- TOO FAR -->
+			<div id="tooFar" class="deactivated">&#9888; You aren’t close enough to anyone to talk</div>
+		</div>
+		
+		<!-- HANDS -->
+		<div id="player-hands" class="controller-screen">
+			<div class="controller-header">Middle</div>
+			<div id="hands-talk-bubble" class="talk-bubble hands-and-legs-talk-bubble deactivated">
+				<div id="hands-talk-title" class="talk-title">
+					Talk Bubble Title
+				</div>
+				<div id="hands-talk-content" class="talk-content">
+					Talk Bubble Content
+				</div>
+			</div>
+			<div class="container">
+				<div id="canvas_container"></div>
+			</div>
+		</div>
+
+		<!-- LEGS -->
+		<div id="player-legs" class="controller-screen deactivated">
+			<div class="controller-header">Bottom</div>
+			<div id="legs-talk-bubble" class="talk-bubble hands-and-legs-talk-bubble deactivated">
+				<div id="legs-talk-title" class="talk-title">
+					Talk Bubble Title
+				</div>
+				<div id="legs-talk-content" class="talk-content">
+					Talk Bubble Content
+				</div>
+			</div>
+			<div class="dpad-area">
+				<div class="dpad-up-area">
+					<img id="arrow-up" class="arrow arrow-up" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-up.png" ontouchstart="window.moveKeyDown('up')" ontouchend="window.moveKeyUp('up')">
+				</div>
+				<div class="dpad-else-area">
+					<img id="arrow-left" class="arrow arrow-left" ontouchstart="window.moveKeyDown('left')" ontouchend="window.moveKeyUp('left')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-left.png">
+					<img id="arrow-down" class="arrow arrow-down" ontouchstart="window.moveKeyDown('down')" ontouchend="window.moveKeyUp('down')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-down.png">
+					<img id="arrow-right" class="arrow arrow-right" ontouchstart="window.moveKeyDown('right')" ontouchend="window.moveKeyUp('right')" src="https://jeesub.github.io/assets/inventory/BVWteam44/img/icon-right.png">
+				</div>
+			</div>
+		</div>
+		<div id="player-admin" class="controller-screen deactivated">
+			<div class="controller-header">Admin</div>
+			<div id="admin1" class="admin-content">
+				Welcome, Team44.<br>
+				Are you Yuji? Lauren? Qin? Wizard? or Jeesub?<br>
+				If not, hey, you found a secret page!<br>
+				Good to see you here.<br>
+				Now, wait for users.<br>
+			</div>
+			<div id="admin2" class="admin-content deactivated">
+				<div class="admin-title">Top Gnome</div>
+				<select name="part0" id="admin-assign-0">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
+
+				<div class="admin-title">Middle Gnome</div>
+				<select name="part1" id="admin-assign-1">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
+				
+				<div class="admin-title">Bottom Gnome</div>
+				<select name="part2" id="admin-assign-2">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</select>
+				<button class="button submit assign" ontouchend="window.assignRoles()">Assign</button>
+			</div>
+			<div id="admin3" class="admin-content deactivated">
+				All Set! Go Team44!
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		/**
+		 * Code from Air Console Swipe Pattern
+		**/
+		/**
+		 * An object containing a configuration for the SwipePattern constructor.
+		 * @typedef {object} SwipePatternConfig
+		 * @property {Function} onTouchCircle -
+		 *           The callback that gets called when a circle was touched
+		 * @property {Function} touchend -
+		 *           The callback that gets called when the SwipePattern is released
+		 * @property {number} circles - A list of SwipePattern~Circle
+		 * @property {SwipePattern~Style} style - A configuration style object
+		 */
+
+		/**
+		 * A circle is an object with an x, y and radius property.
+		 * @typedef {object} SwipePattern~Circle
+		 * @param {number} x - The x coordinate
+		 * @param {number} y - The y coordinate
+		 * @param {number} radius - The radius of the circle
+		 * @param {mixed} id - (Optional) The id to identify the circle
+		 * @param {object} style - (Optional) The style object to style a circle individually
+		 *                         {fill_color <Color>, stroke_width <Number> ,stroke_color <Color>}
+		 */
+
+		/**
+		 * A coordinate is an object with an x and y property.
+		 * @typedef {object} SwipePattern~Coordinate
+		 * @param {number} x - The x coordinate
+		 * @param {number} y - The y coordinate
+		 */
+
+		/**
+		 * A style object to set a global style for circles and lines
+		 * @typedef {object} SwipePattern~Style
+		 * @param {object} circle - Styles applied to all circles ({fill_color, stroke_width,stroke_color})
+		 * @param {number} line - Style to apply to lines ({stroke_width, stroke_color})
+		 */
+
+		/**
+		 * A pattern of circles, which you can connect by swiping.
+		 * @param {HTMLElement|string} el - The HTML container element or its ID.
+		 * @param {SwipePatternConfig} opts - Constructor config.
+		 * @constructor
+		 */
+		var SwipePattern = function(el, opts) {
+			var me = this;
+			opts = opts || {}
+			//
+			this.container = el;
+			this.touchend_cb = opts.touchend || null;
+			this.onTouchCircle = opts.onTouchCircle || null;
+			this.style = opts.style || {
+				circle: {
+					fill_color: '#FFF',
+					stroke_color: "#C6FF00",
+					stroke_width: 2
+				},
+				line: {
+					stroke_color: "#C6FF00",
+					stroke_width: 6
+				}
+			};
+			//
+			this.scale = 1;
+			this.circle_opts = opts.circles || [];
+			this.circles = [];
+			this.touched_circles = [];
+			this.current_line = null;
+			this.canvas = null;
+			this.ctx = null;
+			this.is_mousedown = false;
+			//
+			this.setup(opts);
+		};
+
+		SwipePattern.prototype = {
+
+			/*
+			 * Setups up canvas and circles
+			 * @param {Object} opts - Passed opts of the constructor
+			 */
+			setup: function(opts) {
+				this.canvas = document.createElement("canvas");
+				var container_rect = this.container.getBoundingClientRect();
+				this.canvas.className = 'swipe-pattern-canvas';
+				this.container.appendChild(this.canvas);
+				this.ctx = this.canvas.getContext("2d");
+				this.bindEvents();
+				this.build();
+			},
+
+			build: function() {
+				this.clearTouchedCircles();
+				this.createCircleObjects(this.circle_opts);
+				this.drawCircles();
+			},
+
+			checkResize: function(most_right_circle, most_bottom_circle) {
+				var need_width = most_right_circle.x + most_right_circle.radius + 10;
+				var need_height = most_bottom_circle.y + most_bottom_circle.radius + 10;
+				var container_rect = this.container.getBoundingClientRect();
+				var parent_rect = container_rect;
+				// We need to scale
+				if (need_width > container_rect.width || need_height > container_rect.height) {
+					this.canvas.width = Math.max(need_width, container_rect.width);
+					this.canvas.height = Math.max(need_height, container_rect.height);
+					var scale = Math.min(container_rect.width / (need_width), container_rect.height / need_height);
+					this.canvas.style.transformOrigin = "left top";
+					this.canvas.style.webkitTransform = "scale(" + scale + ", " + scale + ")";
+					this.canvas.style.transform = "scale(" + scale + ", " + scale + ")";
+					this.canvas.style.msTransform = "scale(" + scale + ", " + scale + ")";
+					this.canvas.style.OTransform = "scale(" + scale + ", " + scale + ")";
+					this.scale = scale;
+				} else {
+					this.canvas.width = Math.min(need_width, container_rect.width);
+					this.canvas.height = Math.min(need_height, container_rect.height);
+					parent_rect = this.container.parentNode.getBoundingClientRect();
+				}
+
+				var offset_y = Math.max(0, (parent_rect.height - container_rect.height) / 2);
+				this.container.style.marginTop = offset_y + "px";
+			},
+
+			/*
+			 * Bind input events to handlers
+			 */
+			bindEvents: function() {
+				this.container.addEventListener("touchstart", this.onTouchStartHandler.bind(this));
+				this.container.addEventListener("touchmove", this.onTouchMoveHandler.bind(this));
+				this.container.addEventListener("touchend", this.onTouchEndHandler.bind(this));
+
+				// Mouse fallback
+				if (!("ontouchstart" in document.createElement("div"))) {
+					this.container.addEventListener("mousedown", this.onTouchStartHandler.bind(this));
+					this.container.addEventListener("mousemove", this.onTouchMoveHandler.bind(this));
+					this.container.addEventListener("mouseup", this.onTouchEndHandler.bind(this));
+				}
+				window.addEventListener('resize', this.build.bind(this));
+			},
+
+			/*
+			 * Returns circle object if touch point is touching a circle
+			 * @return {SwipePattern~Circle}
+			 */
+			mousePointInCircle: function(point) {
+				var is_in = null;
+				for (var i = 0; i < this.circles.length; i++) {
+					var circle = this.circles[i];
+					if (this.pointInCircle(point, circle)) {
+						is_in = circle;
+						break;
+					}
+				}
+				return is_in;
+			},
+
+			/*
+			 * Check if to add a circle to the touched circles
+			 * @param {SwipePattern~Circle} circle
+			 */
+			addConnectionLine: function(circle) {
+				var last_circle = this.touched_circles[this.touched_circles.length - 1];
+				// Set next link if it is not the same circle
+				if ((last_circle && last_circle.id !== circle.id) || !last_circle) {
+					this.addTouchedCircle(circle);
+					if (last_circle) {
+						this.current_line = null;
+						this.drawConnections();
+					}
+				}
+			},
+
+			/*
+			 * Adds a touched circle to the touched circles list
+			 * @param {SwipePattern~Circle} circle
+			 */
+			addTouchedCircle: function(circle) {
+				var circle_data = {
+					id: circle.id,
+					x: circle.x,
+					y: circle.y,
+					radius: circle.radius
+				};
+				this.touched_circles.push(circle_data);
+				if (this.onTouchCircle) {
+					this.onTouchCircle(circle_data);
+				}
+			},
+
+			/*
+			 * Called on touch start
+			 * @param {Event} e
+			 */
+			onTouchStartHandler: function(e) {
+				this.is_mousedown = true;
+				this.update();
+				e.preventDefault();
+			},
+
+			/*
+			 * Called on touch move
+			 * @param {Event} e
+			 */
+			onTouchMoveHandler: function(e) {
+				if (this.is_mousedown) {
+					var point = this.getRelativePos(e);
+					var circle = this.mousePointInCircle(point);
+					if (circle) {
+						this.addConnectionLine(circle);
+					} else {
+						this.current_line = {x: point.x, y: point.y};
+					}
+				}
+				e.preventDefault();
+			},
+
+			/*
+			 * Called on touch end
+			 * @param {Event} e
+			 */
+			onTouchEndHandler: function(e) {
+				this.is_mousedown = false;
+				if (this.touchend_cb) {
+					this.touchend_cb(this.touched_circles);
+				}
+				this.clearTouchedCircles();
+				e.preventDefault();
+			},
+
+			clearTouchedCircles: function() {
+				this.touched_circles = [];
+				this.clearCanvas();
+				this.drawCircles();
+			},
+
+			// ======================================================
+
+			/*
+			 * Clears the canvas
+			 */
+			clearCanvas: function() {
+				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+			},
+
+			/*
+			 * Draw method to draw all objects
+			 */
+			draw: function() {
+				this.clearCanvas();
+				this.drawCircles();
+				this.drawConnections();
+				this.drawDragLine();
+			},
+
+			/*
+			 * Draw the current line
+			 */
+			drawDragLine: function() {
+				var last_circle = this.touched_circles[this.touched_circles.length - 1];
+				if (last_circle && this.current_line) {
+					this.drawLine(last_circle, this.current_line);
+				}
+			},
+
+		/*
+		 * Update tick method
+		 */
+		update: function() {
+			if (!this.is_mousedown) return;
+			this.draw();
+			requestAnimationFrame(this.update.bind(this));
+		},
+
+		/*
+		 * Draws all circles
+		 */
+		drawCircles: function() {
+			for (var i = 0; i < this.circles.length; i++) {
+				var circle = this.circles[i];
+				this.drawCircle(circle);
+			}
+		},
+
+		/*
+		 * Draws all connections
+		 * @param {Array|undefined} connects - A list of line segments or default the touched circles
+		 */
+		drawConnections: function(connections) {
+			connections = connections || this.touched_circles;
+			for (var i = 0; i < connections.length; i++) {
+				var circle = connections[i];
+				if (i === 0) continue;
+				var prev = connections[i - 1];
+				if (prev) {
+					this.drawLine(circle, prev);
+				}
+			}
+		},
+
+		/*
+		 * Creates circle objects
+		 * @param {Array} circles - A list of circles
+		 */
+		createCircleObjects: function(circles) {
+			var most_right = null;
+			var most_bottom = null;
+			for (var i = 0; i < circles.length; i++) {
+				var p = circles[i];
+				var opts = {
+					id: p.id || (i + 1),
+					x: p.x,
+					y: p.y,
+					radius: p.radius || 30,
+					style: p.style || null
+				};
+				if (!most_bottom || p.y > most_bottom.y) {
+					most_bottom = opts;
+				}
+				if (!most_right || p.x > most_right.x) {
+					most_right = opts;
+				}
+				this.circles.push(opts);
+			}
+			this.checkResize(most_right, most_bottom);
+		},
+
+		/*
+		 * Returns true if a sequence of ids has been touched
+		 * @param {Array} sequence - A list of circle ids: E.g. [1, 5, 7] (or own specified ids)
+		 * @param {Boolean} order_matters - If true check if the order is the same as in the
+		 *                                  touched circles, or (false) just check if these
+		 *                                  circles have been touched.
+		 * @return {Boolean}
+		 */
+		pathIsTouched: function(sequence, order_matters) {
+			if (!this.touched_circles.length) return false;
+			var len = sequence.length;
+			var counter = 0;
+			var result = false;
+			for (var i = 0; i < sequence.length; i++) {
+				// Order matters
+				if (order_matters) {
+					if (this.touched_circles[i]) {
+		  				if (sequence[i] === this.touched_circles[i].id) {
+		    				counter++;
+		  				}
+					}
+					result = counter === len;
+					// Order does not matter, just check if they are touched
+				} else {
+					for (var t = 0; t < this.touched_circles.length; t++) {
+						if (this.touched_circles[t].id === sequence[i]) {
+							counter++;
+						break;
+						}
+					}
+					result = counter === len && this.touched_circles.length == len;
+				}
+			}
+			return result;
+		},
+
+		// ======================================================
+
+		/*
+		 * Draws a circle on the canvas
+		 * @param {SwipePatter~Circle} circle
+		 */
+		drawCircle: function(circle) {
+			this.ctx.beginPath();
+			this.ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+			var style = circle.style || this.style.circle;
+			this.ctx.fillStyle = style.fill_color;
+			this.ctx.fill();
+			this.ctx.lineWidth = style.stroke_width;
+			this.ctx.strokeStyle = style.stroke_color;
+			this.ctx.stroke();
+
+			this.ctx.beginPath();
+			this.ctx.arc(circle.x, circle.y, 0.8 * circle.radius, 0.1 * Math.PI, 0.45 * Math.PI, false);
+			this.ctx.stroke();
+
+			this.ctx.beginPath();
+			this.ctx.arc(circle.x, circle.y, 0.8 * circle.radius, 1.2 * Math.PI, 1.4 * Math.PI, false);
+			this.ctx.strokeStyle = "#FFF";
+			this.ctx.stroke();
+
+			this.ctx.beginPath();
+			this.ctx.arc(circle.x, circle.y, 0.8 * circle.radius, 1.05 * Math.PI, 1.1 * Math.PI, false);
+			this.ctx.strokeStyle = "#FFF";
+			this.ctx.stroke();
+		},
+
+		/*
+		 * Draws a line between two points
+		 * @return {SwipePattern~Coordinate} start
+		 * @return {SwipePattern~Coordinate} end
+		 */
+		drawLine: function(start, end) {
+			var style = this.style.line;
+			this.ctx.beginPath();
+			this.ctx.moveTo(start.x, start.y);
+			this.ctx.lineTo(end.x, end.y);
+			this.ctx.closePath();
+			this.ctx.lineWidth = style.stroke_width;
+			// set line color
+			this.ctx.strokeStyle = style.stroke_color;
+			this.ctx.stroke();
+		},
+
+		/*
+		 * Returns point
+		 * @param {Event} e
+		 * @return {SwipePattern~Coordinate}
+		 */
+		getRelativePos: function(e) {
+			var pos = this.getEventPoint(e);
+			var rect = this.canvas.getBoundingClientRect();
+			var x = (pos.x - rect.left - window.scrollX) / this.scale;
+			var y = ( pos.y - rect.top - window.scrollY) / this.scale;
+			return { x: x, y: y };
+		},
+
+		/*
+		 * Returns true if a point is in a circle
+		 * @return {SwipePattern~Coordinate} point
+		 * @param {SwipePattern~Circle} circle
+		 */
+		pointInCircle: function(point, circle) {
+			var distance = Math.pow(circle.x - point.x, 2) + Math.pow(circle.y - point.y, 2);
+			return distance <= (circle.radius * circle.radius);
+		},
+
+		/*
+		 * Returns the event point coordinates considering both touch and mouse events
+		 * @param {Event} e - An event
+		 * @return {SwipePattern~Coordinate}
+		 */
+		getEventPoint: function(e) {
+			var out = { x: 0, y: 0 };
+			if(e.touches && (e.type == 'touchstart' || e.type == 'touchmove' ||
+				e.type == 'touchend' || e.type == 'touchcancel')) {
+					var touch = e.targetTouches[0] || e.changedTouches[0] || e.touches[0];
+					out.x = touch.pageX;
+					out.y = touch.pageY;
+				} else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' ||
+					e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' ||
+					e.type=='mouseleave') {
+				out.x = e.pageX;
+				out.y = e.pageY;
+			}
+			return out;
+			}
+		};
+		/*
+		 * PATTERN PART
+		 */
+		var airconsole = new AirConsole();
+		var c_container = document.getElementById('canvas_container');
+
+		var swipe = new SwipePattern(c_container, {
+			circles: [
+				{x: 50, y: 60, style: {fill_color: '#A3B253', stroke_color: "#000", stroke_width: 2}},
+				{x: 150, y: 60, style: {fill_color: '#EFBF2F', stroke_color: "#000", stroke_width: 2}},
+				{x: 250, y: 60, style: {fill_color: '#DF4A5E', stroke_color: "#000", stroke_width: 2}},
+				{x: 50, y: 150, style: {fill_color: '#336A9C', stroke_color: "#000", stroke_width: 2}},
+				{x: 150, y: 150, style: {fill_color: '#E68D25', stroke_color: "#000", stroke_width: 2}},
+				{x: 250, y: 150, style: {fill_color: '#B85185', stroke_color: "#000", stroke_width: 2}},
+				{x: 50, y: 240, style: {fill_color: '#2F3C44', stroke_color: "#000", stroke_width: 2}},
+				{x: 150, y: 240, style: {fill_color: '#814801', stroke_color: "#000", stroke_width: 2}},
+				{x: 250, y: 240, style: {fill_color: '#4E266A', stroke_color: "#000", stroke_width: 2}}
+			],
+
+			// Called when touching a new circle
+			onTouchCircle: function(circle) {
+				playGenericButtonAudio();
+				console.log("Touched circle", circle);
+				if (isCasting == false) {
+					startCasting();
+				}
+			},
+
+			// Called on touch ends. Passes an array of touched circles
+			touchend: function(touched_circles) {
+				if (this.pathIsTouched([2, 'customId', 8], true)) {
+					console.log("2, customId, 8 Pattern MATCHES", touched_circles);
+				}
+				airconsole.message(AirConsole.SCREEN,
+				{
+					"pattern": {
+						"circles": touched_circles
+					}
+				});
+				endCasting();
+			}
+		});
+	</script>
+</html>
